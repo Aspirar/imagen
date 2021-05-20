@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Imagen</title>
+
+    <style>
+      canvas {
+        width: 256px;
+        height: 256px;
+        display: block;
+      }
+
+      button {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas" width="256" height="256"></canvas>
+    <textarea id="code" rows="20" cols="100"></textarea>
+    <button onClick="render()">Render</button>
+
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.getImageData(0, 0, 256, 256);
+
+      const textarea = document.getElementById('code');
+
+      function render() {
+        for (let y = 0; y < 256; y += 1) {
+          for (let x = 0; x < 256; x += 1) {
+            const a = x / 255;
+            const b = y / 255;
+            const val = eval(textarea.value);
+            const index = (y * 256 + x) * 4;
+            imageData.data[index] = val * 255;
+            imageData.data[index + 1] = val * 255;
+            imageData.data[index + 2] = val * 255;
+            imageData.data[index + 3] = 255;
+          }
+      }
+      console.log('Done');
+      ctx.putImageData(imageData, 0, 0);
+      }
+    </script>
+  </body>
+</html>
